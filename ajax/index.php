@@ -42,10 +42,7 @@
         </div>
         <hr>
     </div>
-    <div class="col-sm-8 offset-2 pt-3" id="users">
-
-
-    </div>
+    <div class="col-sm-8 offset-2 pt-3" id="users"></div>
 </div>
 </body>
 </html>
