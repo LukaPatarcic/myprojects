@@ -6,14 +6,15 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/all.css">
+
     <title>Document</title>
 </head>
 <body>
 <div class="container mt-5">
+    <i class="fa fa-icon">
     <div class="col-sm-8 offset-2">
     <form method="post" action="process.php" class="form">
-        <label>Name</label><input class="form-control" type="text" name="name">
+        <label>Name</label><input class="form-control warning" type="text" name="name">
         <label>Email</label><input class="form-control" type="text" name="email">
         <label>Phone</label><input class="form-control" type="text" name="phone">
         <button id="btn" class="btn btn-primary form-control mt-3" type="submit">Send</button>
@@ -48,6 +49,5 @@
 </body>
 </html>
 <script src="js/jquery.js"></script>
-<script src="js/all.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/ajax.js"></script>
