@@ -1,5 +1,5 @@
  $(document).ready(function () {
-    
+        //inserts users into the database 
         $('form.form').on('submit',function () {
            var that = $(this),
            url = that.attr('action'),
@@ -33,13 +33,28 @@
             });
             return false;
         });
+        //gets the users from the database
         var numbers = 0;
-        $('#usersBtn').click(function () {
+        $(window).scroll(function () {
             //alert("test");
             numbers = numbers +1;
             $('#users').load('loadUsers.inc.php',{
                 number : numbers
             });
+        });
+
+        //searches for users from database
+        $('#search').keyup(function(event) {
+           value = $('input[name="search"').val();
+           if(value == ''){
+            $('#result').text('');
+           }else{
+           console.log(value);
+            $('#result').load('search.php',{
+                search : value
+            });
+           } 
+            
         });
 
  });

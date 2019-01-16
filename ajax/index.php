@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/all.css">
     <title>Document</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
         <form method="post" action="search.php" class="form2 form-inline">
             <label>Search</label>
             <input type="text" name="search" class="form-control" placeholder="Search for names" id="search">
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary disabled" disabled>Search</button>
         </form>
     </div>
     <div class="col-sm-8 offset-2 mb-5" id="result"></div>
@@ -47,5 +48,6 @@
 </body>
 </html>
 <script src="js/jquery.js"></script>
+<script src="js/all.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/ajax.js"></script>
