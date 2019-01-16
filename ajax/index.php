@@ -25,11 +25,11 @@
     <div class="col-sm-8 offset-2 mb-5">
         <form method="post" action="search.php" class="form2 form-inline">
             <label>Search</label>
-            <input type="text" name="search" class="form-control" placeholder="Search for names">
+            <input type="text" name="search" class="form-control" placeholder="Search for names" id="search">
             <button class="btn btn-primary">Search</button>
         </form>
     </div>
-    <div class="col-sm-8 offset-2 mb-5" id="result  "></div>
+    <div class="col-sm-8 offset-2 mb-5" id="result"></div>
     <div class="col-sm-8 offset-2">
         <button class="btn btn-primary form-control" id="usersBtn">View Users</button>
     </div>
@@ -42,12 +42,10 @@
         </div>
         <hr>
     </div>
-    <div class="col-sm-8 offset-2 pt-3" id="users">
-
-
-    </div>
+    <div class="col-sm-8 offset-2 pt-3" id="users"></div>
 </div>
 </body>
 </html>
 <script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
 <script src="js/ajax.js"></script>

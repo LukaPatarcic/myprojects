@@ -1,4 +1,5 @@
  $(document).ready(function () {
+    
         $('form.form').on('submit',function () {
            var that = $(this),
            url = that.attr('action'),
@@ -69,22 +70,16 @@
             $('#users').load('deleteUsers.inc.php',{
             });
         })*/
-        $(document).on('click','.delete["value"]',function () {
-            var btnID = $('.delete');
-            btnID.find('[value]').each(function() {
-                var value = $('this').val();
-                console.log(value);
+        
+        $('#search').keyup(function() {
+            alert("keyup");
+        });
 
-                
-            });
+        $('#search').keydown(function() {
+            alert("keyup");
+        });
 
-           // var buttonID = $('button.delete');
-            //buttonID.find('[id]').each(function (event) {
-                //var value = this.val();
-                //alert(value);
-            //});
 
-        })
 
 
     })
