@@ -18,7 +18,7 @@ while($result = mysqli_fetch_assoc($query)){
     echo "<div class='col-sm-3'>{$result['user_name']}</div>
           <div class='col-sm-3 email'>{$result['user_email']}</div>
           <div class='col-sm-3'>{$result['user_phone']}</div>
-          <div class='col-sm-3'><button class='btn btn-primary delete' id='{$result['user_id']}'>DELETE</button></div>
+          <div class='col-sm-3'><button class='btn btn-primary delete' value='{$result['user_id']}'>DELETE</button></div>
     ";
     echo "</div>
           <hr>
