@@ -1,15 +1,39 @@
  $(document).ready(function () {
+          var regex = {
+                    name : /^[a-zA-Z]{2,20}?$/ ,
+                    email : /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i ,
+                    phone : /^[0-9\-\/]{10,18}?$/
+                  };
         $('input[name="name"]').keyup(function(event) {
-          var regex = /^[a-zA-Z]*$/;
           var val = $(this).val();
-          if(!val.match(regex)){
-            $(this).addClass('is-invalid');
-          }else if(val == ''){
-            $(this).removeClass('is-valid');
-             $(this).removeClass('is-invalid');
-          }else{
-            $(this).addClass('is-valid');
+          if(val === ''){
             $(this).removeClass('is-invalid');
+          }else if(!val.match(regex['name'])){
+            $(this).addClass('is-invalid').removeClass('is-valid');
+          }else{
+            $(this).addClass('is-valid').removeClass('is-invalid');
+          }
+        });
+
+        $('input[name="email"]').keyup(function(event) {
+          var val = $(this).val();
+          if(val === ''){
+            $(this).removeClass('is-invalid');
+          }else if(!val.match(regex['email'])){
+            $(this).addClass('is-invalid').removeClass('is-valid');
+          }else{
+            $(this).addClass('is-valid').removeClass('is-invalid');
+          }
+        });
+
+        $('input[name="phone"]').keyup(function(event) {
+          var val = $(this).val();
+          if(val === ''){
+            $(this).removeClass('is-invalid');
+          }else if(!val.match(regex['phone'])){
+            $(this).addClass('is-invalid').removeClass('is-valid');
+          }else{
+            $(this).addClass('is-valid').removeClass('is-invalid');
           }
         });
         //inserts users into the database 

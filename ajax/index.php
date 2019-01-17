@@ -14,9 +14,12 @@
     <i class="fa fa-icon">
     <div class="col-sm-8 offset-2">
     <form method="post" action="process.php" class="form">
-        <label>Name</label><input class="form-control warning" type="text" name="name">
+        <label>Name</label><input class="form-control" type="text" name="name">
+        <small class="text-muted">Only letters(2-20 characters)</small><br>
         <label>Email</label><input class="form-control" type="text" name="email">
+        <small class="text-muted">Enter a valid email</small><br>
         <label>Phone</label><input class="form-control" type="text" name="phone">
+        <small class="text-muted">Only numbers and - / chars</small><br>
         <button id="btn" class="btn btn-primary form-control mt-3" type="submit">Send</button>
         <input type="hidden" name="hidden">
     </form>
@@ -25,10 +28,9 @@
     <hr>
     </div>
     <div class="col-sm-8 offset-2 mb-5">
-        <form method="post" action="search.php" class="form2 form-inline">
+        <form method="post" action="search.php" class="form2">
             <label>Search</label>
-            <input type="text" name="search" class="form-control" placeholder="Search for names" id="search">
-            <button class="btn btn-primary disabled" disabled>Search</button>
+            <input type="text" name="search" class="form-control" placeholder="Search for names or emails" id="search">
         </form>
     </div>
     <div class="col-sm-8 offset-2 mb-5" id="result"></div>
