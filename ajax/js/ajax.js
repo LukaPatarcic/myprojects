@@ -85,7 +85,7 @@
 
         //searches for users from database
         $('#search').keyup(function(event) {
-           value = $('input[name="search"').val();
+           value = $('input[name="search"]').val();
            if(value == ''){
             $('#result').text('');
            }else{
