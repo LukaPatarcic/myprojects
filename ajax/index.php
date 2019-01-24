@@ -11,7 +11,6 @@
 </head>
 <body>
 <div class="container mt-5">
-    <i class="fa fa-icon">
     <div class="col-sm-8 offset-2">
     <form method="post" action="process.php" class="form">
         <label>Name</label><input class="form-control" type="text" name="name">
@@ -33,7 +32,7 @@
             <input type="text" name="search" class="form-control" placeholder="Search for names or emails" id="search">
         </form>
     </div>
-    <div class="col-sm-8 offset-2 mb-5" id="result"></div>
+    <!--<div class="col-sm-8 offset-2 mb-5" id="result"></div>
     <div class="col-sm-8 offset-2">
         <button class="btn btn-primary form-control" id="usersBtn">View Users</button>
     </div>
@@ -45,11 +44,28 @@
         <div class="col-sm-3">DELETE</div>
         </div>
         <hr>
-    </div>
+    </div>-->
     <div class="col-sm-8 offset-2 pt-3" id="users"></div>
+    <div class="row">
+        <div class="col-sm-1 offset-4">
+            <span class="text-center text-primary" id="result"></span>
+        </div>
+        <div class="col-sm2">
+            <button class="btn btn-primary" id="RDND">RDND</button>
+        </div>
+    </div>
 </div>
+
+
 </body>
 </html>
 <script src="js/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#RDND').click(function () {
+            $('#result').text(Math.floor(Math.random()*20)+1);
+        })
+    })
+</script>
 <script src="js/bootstrap.js"></script>
 <script src="js/ajax.js"></script>

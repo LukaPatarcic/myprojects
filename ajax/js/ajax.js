@@ -64,6 +64,7 @@
                         error.removeClass('alert-danger');
                         error.addClass('alert-success');
                         error.text(response);
+
                         $('input').val('');
                     }
                 }
