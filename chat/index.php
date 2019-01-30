@@ -1,4 +1,7 @@
-<?php require "includes/db_config.php" ?>
+<?php
+    require "includes/db_config.php";
+    session_start ();
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +17,7 @@
     <h1 class="text-center">REGISTER NOW</h1>
     <div class="row">
         <div class="col-sm-12 col-md-6 offset-md-3">
-            <form class="register" method="post" action="includes/register.inc.php">
+            <form class="register" method="post" action="includes/register.inc.php" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Username: </label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
@@ -45,6 +48,34 @@
     <div class="row">
         <div class="col-sm-12 col-md-6 offset-md-3 alert mt-3" id="error"></div>
     </div>
+    <h1 class="text-center">LOGIN NOW</h1>
+    <div class="row">
+        <div class="col-sm-6 offset-3">
+            <form method="post" action="includes/login.inc.php">
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" name="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <?php if(isset($_SESSION['username'])){?>
+    <div class="row">
+        <div class="col-sm-12">
+           <?= $_SESSION['username'] ?>
+        </div>
+        <div class="col-sm-6 offset-3">
+            <form method="post" action="includes/logout.inc.php">
+                <button class="btn btn-primary btn-block">Logout</button>
+            </form>
+        </div>
+    </div>
+    <?php } ?>
 </div>
 
 <script src="js/jquery.js"></script>
