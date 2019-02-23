@@ -47,11 +47,14 @@
     </div>-->
     <div class="col-sm-8 offset-2 pt-3" id="users"></div>
     <div class="row">
-        <div class="col-sm-1 offset-4">
+        <div class="col-sm-1">
             <span class="text-center text-primary" id="result"></span>
         </div>
-        <div class="col-sm2">
+        <div class="col-sm-2">
             <button class="btn btn-primary" id="RDND">RDND</button>
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="number" class="form-control" id="number">
         </div>
     </div>
 </div>
@@ -63,7 +66,11 @@
 <script>
     $(document).ready(function () {
         $('#RDND').click(function () {
-            $('#result').text(Math.floor(Math.random()*20)+1);
+            var number = $('#number').val();
+            var random = (Math.floor(Math.random()+1));
+            var difference = $('#result').val();
+            console.log(random);
+            $('#result').text(random*number);
         })
     })
 </script>

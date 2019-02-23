@@ -14,6 +14,38 @@
 </head>
 <body>
 <div class="container">
+    <?php if(isset($_SESSION['username'])){?>
+        <div class="row">
+            <div class="col-sm-6">
+                <button class="btn btn-block btn-link"><a class="btn-link" href="profile.php">Profile</a></button>
+            </div>
+            <div class="col-sm-6">
+                <form method="post" action="includes/logout.inc.php">
+                    <input type="hidden" name="username" value="<?= $_SESSION['username'] ?>">
+                    <button class="btn btn-primary btn-block">Logout</button>
+                </form>
+            </div>
+        </div>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <div class="border border-primary bg-light" style="height: 600px; overflow: auto" id="chatArea"></div>
+        </div>
+        <div class="col-sm-4 mt-5">
+            <form action="includes/sendMessage.inc.php" method="post" class="sendMessage">
+                <input type="hidden" name="hidden" value="submit">
+                <textarea class="form-control" name="message"></textarea>
+                <button class="btn btn-primary btn-block mt-1" name="submit" type="submit">Send</button>
+            </form>
+        </div>
+        <div class="col-sm-2 result">
+        </div>
+        <div class="col-sm-6">
+            <h1>OTHER ACTIVE USERS</h1>
+            <h2 id="activeUsers"></h2>
+
+        </div>
+    </div>
+    <?php }else{ ?>
     <h1 class="text-center">REGISTER NOW</h1>
     <div class="row">
         <div class="col-sm-12 col-md-6 offset-md-3">
@@ -64,21 +96,13 @@
             </form>
         </div>
     </div>
-    <?php if(isset($_SESSION['username'])){?>
-    <div class="row">
-        <div class="col-sm-12">
-           <?= $_SESSION['username'] ?>
-        </div>
-        <div class="col-sm-6 offset-3">
-            <form method="post" action="includes/logout.inc.php">
-                <button class="btn btn-primary btn-block">Logout</button>
-            </form>
-        </div>
-    </div>
     <?php } ?>
 </div>
 
 <script src="js/jquery.js"></script>
 <script src="js/ajax.js"></script>
+<script>
+
+</script>
 </body>
 </html>

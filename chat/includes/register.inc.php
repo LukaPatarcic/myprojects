@@ -15,9 +15,11 @@ if(isset($_POST['submit'])) {
         echo "Please fill out all the required fields";
         exit();
     }
-    if(sizeof ($pictureName) > 50 or $pictureSize > 10000000 or ($pictureType !== 'image/jpeg' and $pictureType !== 'image/png')){
-        echo "Bad picture format";
-        exit();
+    if(!empty($picture)){
+        if(sizeof ($pictureName) > 50 or $pictureSize > 10000000 or ($pictureType !== 'image/jpeg' and $pictureType !== 'image/png')){
+            echo "Bad picture format";
+            exit();
+        }
     }
     if(!preg_match ("/^[A-Za-z0-9]*$/",$username)){
         echo "Username should only contain letters and numbers";

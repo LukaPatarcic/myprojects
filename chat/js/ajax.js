@@ -50,6 +50,36 @@
             }
         });
 
+        $('form.sendMessage').submit(function (event) {
+            event.preventDefault();
+
+            var form = $('form.sendMessage');
+            var formData = $(this).serialize();
+            console.log(formData);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (value) {
+                    form[0].reset();
+                    $('div.result').text(value);
+                    $('#chatArea').load('includes/viewMessages.inc.php');
+                    $("#chatArea").animate({ scrollTop: $("#chatArea")[0].scrollHeight}, 1000);
+                }
+            });
+        });
+
+         var scroll = $('#chatArea');
+         scroll.scrollTop(scroll.prop("scrollHeight"));
+
+
+         function myTimer() {
+             $('#chatArea').load('includes/viewMessages.inc.php');
+             $('#activeUsers').load('includes/activeUsers.inc.php');
+             setTimeout(myTimer, 2000);
+             $("#chatArea").animate({ scrollTop: $("#chatArea")[0].scrollHeight}, 1000);
+         }
+         myTimer();
 
 
  });
