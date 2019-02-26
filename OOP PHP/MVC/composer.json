@@ -1,0 +1,17 @@
+{
+    "name": "mtair/test-app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Luka",
+            "email": "patarcic98@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": ""
+        }
+    }
+
+}
