@@ -84,6 +84,7 @@
           }
         });
 
+
         //searches for users from database
         $('#search').keyup(function(event) {
            value = $('input[name="search"]').val();
@@ -97,5 +98,6 @@
            } 
             
         });
+
 
  });

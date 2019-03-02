@@ -47,15 +47,17 @@
     </div>-->
     <div class="col-sm-8 offset-2 pt-3" id="users"></div>
     <div class="row">
-        <div class="col-sm-1">
+        <div class="col-sm-4 offset-3">
             <span class="text-center text-primary" id="result"></span>
         </div>
+        <!--
         <div class="col-sm-2">
             <button class="btn btn-primary" id="RDND">RDND</button>
         </div>
         <div class="col-sm-4">
             <input type="text" name="number" class="form-control" id="number">
         </div>
+        -->
     </div>
 </div>
 
@@ -64,7 +66,7 @@
 </html>
 <script src="js/jquery.js"></script>
 <script>
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         $('#RDND').click(function () {
             var number = $('#number').val();
             var random = (Math.floor(Math.random()+1));
@@ -72,7 +74,7 @@
             console.log(random);
             $('#result').text(random*number);
         })
-    })
+    })*/
 </script>
 <script src="js/bootstrap.js"></script>
 <script src="js/ajax.js"></script>

@@ -1,2 +1,6 @@
 # mod_rewrite
-
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ PHP/myprojects/OOP%20PHP/MVC/index.php?URL=$1 [L]

@@ -5,6 +5,7 @@
     use App\Core\DatabaseConnection;
     use App\Core\DatabaseConfiguration;
     use App\Controllers\MainController;
+    use \App\Core\Router;
 
 
     $databaseConfiguration = new DatabaseConfiguration(
@@ -15,6 +16,9 @@
     );
 
     $databaseConnection = new DatabaseConnection($databaseConfiguration);
+
+    $url = filter_input (INPUT_GET, 'URL');
+
 /*
 $db = $databaseConnection->getConnection ();
 $userModel = new UserModel($databaseConnection);
@@ -38,6 +42,7 @@ foreach ($json as $key=>$value){
     print_r ($result);
     echo "</pre>";
     */
+
     $controller = new MainController($databaseConnection);
     $controller->home();
     $data = $controller->getData ();
