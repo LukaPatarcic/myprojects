@@ -1,0 +1,23 @@
+{
+    "name": "mtair/test-app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Luka",
+            "email": "patarcic98@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.6",
+        "twitter/bootstrap": "^4.3",
+        "fortawesome/font-awesome": "^5.7",
+        "symfony/dom-crawler": "^4.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/css-selector": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": ""
+        }
+    }
+}
