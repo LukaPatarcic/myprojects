@@ -1,0 +1,18 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+{% spaceless %}
+<div class="row">
+    {% for item in items %}
+    <div class="card col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center category">
+        <div class="card-body">
+            <a href="{{ BASE }}item/{{item.item_id}}"
+               class="card-title">
+                {{ item.item_name }}
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endspaceless %}
+{% endblock %}

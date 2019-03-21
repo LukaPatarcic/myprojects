@@ -1,0 +1,20 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+
+<div class="container">
+    {% for purchase in purchases %}
+    <div class="row">
+        <div class="col-sm-4"> <a href="/item/{{ purchase.item_id }}"> {{ purchase.item_name }} </a></div>
+        <div class="col-sm-4"> {{ purchase.item_description }} </div>
+        <div class="col-sm-4"> {{ purchase.item_price }} $</div>
+    </div>
+    <hr>
+    {% endfor %}
+    <div class="row">
+        <div class="col-sm-12">
+            Total number of purchases is {{ purchases|length }}
+        </div>
+    </div>
+</div>
+{% endblock %}

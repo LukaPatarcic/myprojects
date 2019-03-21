@@ -7,39 +7,25 @@
 <body>
 
 <script>
-    var citizen = {
-        firstname : "Luka",
-        lastname : "Patarcic",
-        id : 12118201
-    };
-    document.write(citizen.firstname + " " + typeof citizen.firstname + "<hr>");
-
-    var myArray = new Array(10);
-    myArray[0] = 16;
-    myArray[1] = 21;
-    myArray[6] = 78;
-    myArray[9] = 87;
-    for(var i = 0; i<myArray.length; i++)
+    var k = "024";
+    var t = "036";
+    var school = "Subotica Tech";
+    function print(msg)
     {
-        document.write(myArray[i] + "<hr>");
+        document.write(msg,"<br>");
     }
-    var myNull = null;
-    if(myNull)
+    function myFunction()
     {
-        alert("Its not null");
+        print(t);
+        print(t);
+        print(k);
+        print(school);
+        web = "http://www.vts.su.ac.rs/";
     }
-    else
-    {
-        alert("Its null");
-    }
-
-    console.log(x);
-    console.log(y);
-    var x;
-    let y;
-
-    const MY_FAVORITE_NUMBER = 7;
-
+    myFunction();
+    print(web);
+    print(t);
+    print(school);
 </script>
 
 </body>
