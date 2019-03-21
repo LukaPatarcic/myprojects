@@ -1,0 +1,20 @@
+{% extends "_global/index.html" %}
+
+{% block main %}
+{% spaceless %}
+<div class="container" id="cartItems">
+    {% for item in items %}
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center ">
+            <a href="{{ BASE }}item/{{item.item_id}}">
+                {{ item.item_name }}
+            </a>
+            <hr>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<a href="#" onclick="clearBookmarks()">Clear basket</a><br>
+<a href="#" onclick="checkoutBookmarks()">Checkout</a>
+{% endspaceless %}
+{% endblock %}
