@@ -22,7 +22,10 @@ function clearBookmarks() {
         .then(data => {
             if (data.error === 0) {
                 const bookmarksDiv = $('#cartItems');
+                const  totalPrice = $('#totalPrice');
+
                 bookmarksDiv.empty();
+                totalPrice.text('Total price is: 0');
                 getBookmarks();
             }
         });
@@ -43,7 +46,7 @@ function displayBookmarks(items) {
 }
 function checkoutBookmarks(){
     var items = [];
-    var div = $('div.text-center a');
+    var div = $('li a');
     if(div.length === 0) {
         alert('no items to purchase');
         return;

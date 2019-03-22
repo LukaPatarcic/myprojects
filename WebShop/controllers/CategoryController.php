@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Controllers;
-use App\Core\Controller;
+use App\Core\Role\UserRoleController;
 use App\Models\CategoryModel;
 
-class CategoryController extends Controller
+class CategoryController extends UserRoleController
 {
     public function show()
     {

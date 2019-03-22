@@ -1,6 +1,6 @@
 <?php
     final class Configuration {
-        const BASE = 'http://localhost/htdocs/';
+        const BASE = 'http://localhost/';
 
         const DATABASE_HOST = 'localhost';
         const DATABASE_USER = 'root';

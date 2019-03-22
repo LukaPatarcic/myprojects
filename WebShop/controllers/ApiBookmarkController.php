@@ -16,22 +16,12 @@
             $itemModel = new \App\Models\ItemModel($this->getDatabaseConnection());
             $item = $itemModel->getById($itemId);
 
-
-
             if (!$item) {
                 $this->set('error', -1);
                 return;
             }
 
-            $items = $this->getSession()->get('items', []);
 
-            foreach ($items as $it) {
-
-                if ($it->item_id == $itemId) {
-                    $this->set('error', -2);
-                    return;
-                }
-            }
 
             $items[] = $item;
             $this->getSession()->put('items', $items);

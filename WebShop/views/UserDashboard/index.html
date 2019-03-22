@@ -3,6 +3,14 @@
 {% block main %}
 
 <div class="container">
+
+    <h1 class="text-center text-primary">Welcome {{ user.username }}</h1>
+    <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapseExample">
+            Show past purchases
+        </button>
+    </p>
+    <div class="container collapse" id="collapse">
     {% for purchase in purchases %}
     <div class="row">
         <div class="col-sm-4"> <a href="/item/{{ purchase.item_id }}"> {{ purchase.item_name }} </a></div>
@@ -11,6 +19,7 @@
     </div>
     <hr>
     {% endfor %}
+    </div>
     <div class="row">
         <div class="col-sm-12">
             Total number of purchases is {{ purchases|length }}

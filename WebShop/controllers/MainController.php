@@ -3,9 +3,6 @@
 
     class MainController extends \App\Core\Controller {
         public function home() {
-            $itemModel = new \App\Models\ItemModel($this->getDatabaseConnection());
-            $items = $itemModel->getAll();
-            $this->set('items', $items);
         }
 
         public function getRegister() {
@@ -13,6 +10,7 @@
         }
 
         public function postRegister() {
+
             $email     = \filter_input(INPUT_POST, 'reg_email', FILTER_SANITIZE_EMAIL);
             $forename  = \filter_input(INPUT_POST, 'reg_forename', FILTER_SANITIZE_STRING);
             $surname   = \filter_input(INPUT_POST, 'reg_surname', FILTER_SANITIZE_STRING);
@@ -110,7 +108,14 @@
         {
             if($this->getSession()->get('user_id')){
                 $items = $this->getSession()->get('items', []);
+                $itemsPrice = $items;
+                $totalPrice = 0;
+                foreach ($itemsPrice as $itemPrice) {
+                    $totalPrice += $itemPrice->item_price;
+                }
+
                 $this->set('items', $items);
+                $this->set('price',$totalPrice);
             }
 
         }

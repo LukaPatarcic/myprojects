@@ -3,17 +3,20 @@
 {% block main %}
 {% spaceless %}
 <div class="container" id="cartItems">
+    <ul class="list-group">
     {% for item in items %}
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 text-center ">
-            <a href="{{ BASE }}item/{{item.item_id}}">
-                {{ item.item_name }}
-            </a>
-            <hr>
-        </div>
-    </div>
+        <li class="list-group-item"><a href="#">{{ item.item_name }}</a>
+            <button class="btn btn-primary float-right" type="button" data-toggle="collapse" data-target="#description{{ item.item_id }}" aria-expanded="false" aria-controls="collapseExample">
+            show more
+            </button>
+        </li>
+        <li class="list-group-item collapse" id="description{{ item.item_id }}">
+            {{ item.item_description }}
+        </li>
     {% endfor %}
+    </ul>
 </div>
+<h5 id="totalPrice">Total price is: {{price|round(2, 'floor')}}</h5>
 <a href="#" onclick="clearBookmarks()">Clear basket</a><br>
 <a href="#" onclick="checkoutBookmarks()">Checkout</a>
 {% endspaceless %}

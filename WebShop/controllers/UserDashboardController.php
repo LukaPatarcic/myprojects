@@ -5,6 +5,7 @@
 
     class UserDashboardController extends \App\Core\Role\UserRoleController {
         public function index() {
+
             $userModel = new UserModel($this->getDatabaseConnection());
             $user = $userModel->getById($this->getSession()->get('user_id'));
             $this->set('user',$user);
