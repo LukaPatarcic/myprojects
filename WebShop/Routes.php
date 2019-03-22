@@ -25,6 +25,7 @@
 
         # User API routes:
         App\Core\Route::post('|^api/offer/make/?|',                 'ApiUserOffer',           'postMakeOffer'),
+        App\Core\Route::get('|^admin/?$|',                    'AdminDashboard',         'index'),
 
         # User role routes:
         App\Core\Route::get('|^user/profile/?$|',                   'UserDashboard',          'index'),
