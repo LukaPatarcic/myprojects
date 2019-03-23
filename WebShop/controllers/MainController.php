@@ -1,6 +1,8 @@
 <?php
     namespace App\Controllers;
 
+    use App\Validators\RegexValidator;
+
     class MainController extends \App\Core\Controller {
         public function home() {
         }
@@ -28,14 +30,32 @@
                 ->setMaxLength(120)
                 ->isValid($password1);
 
-            if ( !$validanPassword) {
-                $this->set('message', 'Doslo je do greške: Lozinka nije ispravnog formata.');
+            $validEmail = filter_var ($email,FILTER_VALIDATE_EMAIL);
+
+            $validUsername = (new RegexValidator())
+                ->setLettersAndNumbersOnly (2,255)
+                ->isValid ($username);
+
+            if(!$validUsername) {
+                $this->set('message', 'Username is not valid');
                 return;
             }
+
+            if(!$validEmail) {
+                $this->set('message', 'Email is not valid');
+                return;
+            }
+
+            if (!$validanPassword) {
+                $this->set('message', 'Password is not valid');
+                return;
+            }
+
 
             $userModel = new \App\Models\userModel($this->getDatabaseConnection());
 
             $user = $userModel->getByFieldName('email', $email);
+
             if ($user) {
                 $this->set('message', 'Doslo je do greške: Već postoji korisnik sa tom adresom e-pošte.');
                 return;
@@ -107,11 +127,11 @@
 
         public function checkout()
         {
-            if($this->getSession()->get('admin_id')){
+            if($this->getSession()->get('admin_id') or $this->getSession ()->get ('user_id')) {
                 $items = $this->getSession()->get('items', []);
-                $itemsPrice = $items;
+                $itemsPrices = $items;
                 $totalPrice = 0;
-                foreach ($itemsPrice as $itemPrice) {
+                foreach ($itemsPrices as $itemPrice) {
                     $totalPrice += $itemPrice->item_price;
                 }
 

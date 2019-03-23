@@ -12,8 +12,9 @@ class PurchaseModel extends Model
     protected function getFields(): array
     {
         return [
-            'user_id' => new Field(new NumberValidator()),
-            'item_id' => new Field(new NumberValidator())
+            'user_id' => new Field((new NumberValidator())->setInteger ()),
+            'item_id' => new Field((new NumberValidator())->setInteger ()),
+            'amount' => new Field((new NumberValidator())->setInteger ())
         ];
     }
     public function getUserPurchase($userId = 1)

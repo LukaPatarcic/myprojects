@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 use App\Core\Controller;
+use App\Core\Role\UserRoleController;
 use App\Models\ItemModel;
 
-class ItemController extends  Controller
+class ItemController extends  UserRoleController
 {
     public function showAll($id)
     {

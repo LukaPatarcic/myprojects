@@ -22,34 +22,32 @@
         
         # API rute:
         App\Core\Route::get('|^api/bookmarks/?$|',                  'ApiBookmark',            'getBookmarks'),
-        App\Core\Route::get('|^api/bookmarks/add/([0-9]+)/?$|',     'ApiBookmark',            'addBookmark'),
+        App\Core\Route::post('|^api/bookmarks/add/?$|',             'ApiBookmark',            'addBookmark'),
         App\Core\Route::get('|^api/bookmarks/clear/?$|',            'ApiBookmark',            'clear'),
         \App\Core\Route::get('|^checkout/?$|',                      'Main',                   'checkout'),
         \App\Core\Route::post('|^checkout/?$|',                     'ApiBookmark',            'checkout'),
 
-        # User API routes:
-        App\Core\Route::post('|^api/offer/make/?|',                 'ApiUserOffer',           'postMakeOffer'),
 
         # User role routes:
         App\Core\Route::get('|^user/profile/?$|',                   'UserDashboard',          'index'),
         App\Core\Route::get('|^admin/profile/?$|',                  'AdminDashboard',         'index'),
 
-        App\Core\Route::get('|^admin/item/add/?$|',                  'AdminDashboard',         'getAddItem'),
-        App\Core\Route::post('|^admin/item/add/?$|',                 'AdminDashboard',         'postAddItem'),
-        App\Core\Route::get('|^admin/category/add/?$|',              'AdminDashboard',         'getAddCategory'),
-        App\Core\Route::post('|^admin/category/add/?$|',             'AdminDashboard',         'postAddCategory'),
-        \App\Core\Route::get('|^admin/items/?$|',                    'AdminDashboard',         'items'),
-        \App\Core\Route::get('|^admin/item/edit/([0-9]+)/?$|',       'AdminDashboard',         'getEditItem'),
-        \App\Core\Route::post('|^admin/item/edit/([0-9]+)/?$|',      'AdminDashboard',         'postEditItem'),
-        \App\Core\Route::get('|^admin/item/delete/([0-9]+)/?$|',     'AdminDashboard',         'deleteItem'),
+        App\Core\Route::get('|^admin/item/add/?$|',                 'AdminDashboard',         'getAddItem'),
+        App\Core\Route::post('|^admin/item/add/?$|',                'AdminDashboard',         'postAddItem'),
+        App\Core\Route::get('|^admin/category/add/?$|',             'AdminDashboard',         'getAddCategory'),
+        App\Core\Route::post('|^admin/category/add/?$|',            'AdminDashboard',         'postAddCategory'),
+        \App\Core\Route::get('|^admin/items/?$|',                   'AdminDashboard',         'items'),
+        \App\Core\Route::get('|^admin/item/edit/([0-9]+)/?$|',      'AdminDashboard',         'getEditItem'),
+        \App\Core\Route::post('|^admin/item/edit/([0-9]+)/?$|',     'AdminDashboard',         'postEditItem'),
+        \App\Core\Route::get('|^admin/item/delete/([0-9]+)/?$|',    'AdminDashboard',         'postDeleteItem'),
 
-        App\Core\Route::get('|^user/auctions/?$|',                  'UserAuctionManagement',   'auctions'),
+        App\Core\Route::get('|^user/auctions/?$|',                  'UserAuctionManagement',  'auctions'),
         App\Core\Route::get('|^user/auctions/edit/([0-9]+)/?$|',    'UserAuctionManagement',  ' getEdit'),
-        App\Core\Route::post('|^user/auctions/edit/([0-9]+)/?$|',   'UserAuctionManagement',   'postEdit'),
-        App\Core\Route::get('|^user/auctions/add/?$|',              'UserAuctionManagement',   'getAdd'),
-        App\Core\Route::post('|^user/auctions/add/?$|',             'UserAuctionManagement',   'postAdd'),
-        \App\Core\Route::get('|^contact/?$|',                       'Main',                    'contact'),
-        \App\Core\Route::post('|^postContact/?$|',                  'ApiContact',              'postContact'),
+        App\Core\Route::post('|^user/auctions/edit/([0-9]+)/?$|',   'UserAuctionManagement',  'postEdit'),
+        App\Core\Route::get('|^user/auctions/add/?$|',              'UserAuctionManagement',  'getAdd'),
+        App\Core\Route::post('|^user/auctions/add/?$|',             'UserAuctionManagement',  'postAdd'),
+        \App\Core\Route::get('|^contact/?$|',                       'Main',                   'contact'),
+        \App\Core\Route::post('|^postContact/?$|',                  'ApiContact',             'postContact'),
 
-        App\Core\Route::any('|^.*$|',                               'Main',                    'home')
+        App\Core\Route::any('|^.*$|',                               'Main',                   'home')
     ];

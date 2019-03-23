@@ -115,8 +115,17 @@ class AdminDashboardController extends AdminRoleController
 
     }
 
-    public function deleteItem()
+    public function postDeleteItem($id)
     {
+        $itemModel = new ItemModel($this->getDatabaseConnection ());
+        $delete = $itemModel->deleteById ($id);
+
+        if($delete)
+        {
+            return $this->set ('message','Item successfully deleted');
+        }
+
+        return $this->set ('message','Something went wrong');
 
     }
 }

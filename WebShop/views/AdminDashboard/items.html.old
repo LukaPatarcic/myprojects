@@ -1,0 +1,50 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/item/add">Add an item</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/category/add">Add a Category</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/items">View all items</a>
+        </div>
+    </div>
+    <table id="table" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Edit/Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.item_name }}</td>
+            <td>{{ item.category_name }}</td>t
+            <td>{{ item.item_description }}
+            <td>{{ item.item_price }}
+            <td><a href="{{ BASE }}admin/item/edit/{{ item.item_id }}" class="btn btn-danger">Edit</a></td>
+            <td><a href="{{ BASE }}admin/item/delete/{{ item.item_id }}" class="btn btn-danger" id="delete" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#table').DataTable();
+    } );
+</script>
+{% endblock %}

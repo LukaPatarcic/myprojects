@@ -1,21 +1,28 @@
 function getBookmarks() {
-    fetch(BASE + 'api/bookmarks', { credentials: 'include' })
-        .then(result => result.json())
-        .then(data => {
-            displayBookmarks(data.items);
-        });
+    $.ajax({
+        url: BASE+'api/bookmarks',
+        type: 'get',
+        success: function (e) {
+            console.log(e);
+            displayNumberOfItems(e.items);
+        }
+    })
 }
-
 function addBookmark(auctionId) {
-    fetch(BASE + 'api/bookmarks/add/' + auctionId, { credentials: 'include' })
-        .then(result => result.json())
-        .then(data => {
-            if (data.error === 0) {
+
+    var amount = $('input[name="amount"]').val();
+    $.ajax({
+        url : BASE + 'api/bookmarks/add',
+        type : 'POST',
+        data : 'amount='+amount+'&id='+auctionId,
+        success: function (response) {
+            console.log(response);
+            if(response.error === 0){
                 getBookmarks();
             }
-        });
+        }
+    })
 }
-
 function clearBookmarks() {
     fetch(BASE + 'api/bookmarks/clear', { credentials: 'include' })
         .then(result => result.json())
@@ -30,40 +37,46 @@ function clearBookmarks() {
             }
         });
 }
-
 function displayBookmarks(items) {
-    const bookmarksDiv = document.querySelector('#cartNumber');
-    bookmarksDiv.innerHTML = '';
-    console.log(items);
-
-    if (items.length === 0) {
-        bookmarksDiv.innerHTML = '0';
-        return;
-    }
-    bookmarksDiv.innerHTML = items.length;
 
 
 }
+function displayNumberOfItems(data) {
+
+    const bookmarksDiv = document.querySelector('#cartNumber');
+
+    if (data.length === 0) {
+        bookmarksDiv.innerHTML = '0';
+        return;
+    }
+    bookmarksDiv.innerHTML = data.length;
+}
 function checkoutBookmarks(){
     var items = [];
-    var div = $('li a');
-    if(div.length === 0) {
+    var amounts = [];
+    var item = $('li a');
+    var amount = $('#amount');
+    if(item.length === 0) {
         alert('no items to purchase');
         return;
     }
-        div.each(function () {
+        item.each(function () {
             if($(this).text() === ''){
                 alert('something went wrong!');
                 return;
             }
             items.push($(this).text().trim());
+            amounts.push(amount.text().trim());
         });
 
     $.ajax({
         url : BASE+'checkout',
         type : 'POST',
-        data : {'items':items},
+        data : 'items='+items+'&amounts='+amounts,
         success: function (response) {
+
+            console.log(response);
+            return;
             if(response.message === 'success'){
                 clearBookmarks();
                 alert('thank you for your purchase');
@@ -75,7 +88,6 @@ function checkoutBookmarks(){
         }
     })
 }
-
 $('#contact').submit(function (e) {
     $('#message').empty();
     e.preventDefault();

@@ -14,7 +14,7 @@
             <a class="btn btn-danger btn-block" href="{{ BASE }}admin/items">View all items</a>
         </div>
     </div>
-    <form action="/admin/item/edit/{{ item.item_id }}" method="post">
+    <form action="{{ BASE }}admin/item/edit/{{ item.item_id }}" method="post">
         <input type="hidden" value="{{ item.item_id }}" name="item_id">
     <div class="row">
         <div class="col-5">

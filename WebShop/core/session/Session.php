@@ -70,7 +70,7 @@
             $fingerprint = $this->fingerprintProvider->provideFingerprint();
             $this->sessionData->__fingerprint = $fingerprint;
 
-            $jsonData = \json_encode($this->sessionData);
+            $jsonData = json_encode($this->sessionData);
             $this->sessionStorage->save($this->sessionId, $jsonData);
             setcookie('APPSESSION', $this->sessionId, time() + $this->sessionLife);
         }
