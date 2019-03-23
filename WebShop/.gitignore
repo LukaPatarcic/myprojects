@@ -3,3 +3,5 @@ vendor/
 sessions/
 assets/libs/
 assets/uploads/
+Configuration.php
+
