@@ -57,9 +57,13 @@
                         <div class="navbar-nav">
                             <a class="nav-item nav-link" href="{{ BASE }}"><i class="fa fa-home"></i> Pocetna</a>
                             <a class="nav-item nav-link" href="{{ BASE }}categories"><i class="fa fa-list-alt"></i> Shop</a>
+                            {% if admin_id %}
+                            <a class="nav-item nav-link" href="{{ BASE }}admin/profile"><i class="fa fa-user"></i> Profil</a>
+                            {% else %}
                             <a class="nav-item nav-link" href="{{ BASE }}user/profile"><i class="fa fa-user"></i> Profil</a>
+                            {% endif %}
                             <a class="nav-item nav-link" href="{{ BASE }}contact"><i class="fa fa-phone"></i> Kontakt</a>
-                            {% if user_id != '' %}
+                            {% if user_id or admin_id %}
                             <a class="nav-item nav-link" href="{{ BASE }}user/logout"><i class="fa fa-sign-out"></i> Odjava</a>
                             {% endif %}
                         </div>
@@ -82,5 +86,7 @@
         <script src="{{ BASE }}assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="{{ BASE }}assets/js/bookmark.js"></script>
         <script src="{{ BASE }}assets/js/offer.js"></script>
+        {% block javascript %}
+        {% endblock %}
     </body>
 </html>

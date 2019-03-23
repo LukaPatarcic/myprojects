@@ -65,5 +65,6 @@
 
 	$data['BASE'] = Configuration::BASE;
 	$data['user_id'] = $controller->getSession()->get('user_id','');
+    $data['admin_id'] = $controller->getSession()->get('admin_id','');
 
 	echo $twig->render($route->getControllerName() . '/' . $route->getMethodName() . '.html', $data);
