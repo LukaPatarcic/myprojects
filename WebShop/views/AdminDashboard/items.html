@@ -1,0 +1,47 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/item/add">Add an item</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/category/add">Add a Category</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/items">View all items</a>
+        </div>
+    </div>
+    {% for item in items %}
+    <div class="row">
+        <div class="col-sm-2">
+            <h4>Name:</h4>
+            {{ item.item_name }}
+        </div>
+
+        <div class="col-sm-2">
+            <h4>Category:</h4>
+            {{ item.category_name }}
+        </div>
+
+        <div class="col-sm-4">
+            <h4>Description:</h4>
+            {{ item.item_description }}
+        </div>
+
+        <div class="col-sm-2">
+            <h4>Price:</h4>
+            {{ item.item_price }}
+        </div>
+        <div class="col-sm-2">
+            <a href="/admin/item/edit/{{ item.item_id }}" class="btn btn-danger">Edit</a>
+            <a href="/admin/item/delete/{{ item.item_id }}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock %}

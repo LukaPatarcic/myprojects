@@ -1,0 +1,68 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/item/add">Add an item</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/category/add">Add a Category</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/items">View all items</a>
+        </div>
+    </div>
+    <form action="/admin/item/edit/{{ item.item_id }}" method="post">
+        <input type="hidden" value="{{ item.item_id }}" name="item_id">
+    <div class="row">
+        <div class="col-5">
+            <div class="input-group mb-2">
+                <input type="text" required pattern="|^[a-zA-z]{2,255}$|" name="item_name" class="form-control" placeholder="Item Name" value="{{item.item_name}}">
+            </div>
+        </div>
+        <div class="col-5">
+            <label class="sr-only">Category</label>
+            <div class="input-group mb-2">
+                <select class="form-control" id="categories" name="item_category" required>
+                    <option>Select a category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="input-group mb-2">
+                <div class="input-group-append">
+                    <div class="input-group-text">$</div>
+                </div>
+                <input type="text" required pattern="|^([1-9][0-9]{0,10}\.[0-9]{2}|[1-9][0-9]+)$|" name="item_price" class="form-control" placeholder="Price" value="{{ item.item_price }}">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="text-muted">Item description:</label>
+               <textarea class="form-control" name="item_description" rows="6" placeholder="Enter item description..." required>{{item.item_description}}</textarea>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button class="btn btn-danger btn-block" type="submit">Edit Item</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        $('#categories').val('{{ item.category_id }}')
+    })
+
+</script>
+{% endblock %}

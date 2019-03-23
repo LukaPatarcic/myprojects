@@ -33,7 +33,7 @@
                 return;
             }
 
-            $userModel = new \App\Models\UserModel($this->getDatabaseConnection());
+            $userModel = new \App\Models\userModel($this->getDatabaseConnection());
 
             $user = $userModel->getByFieldName('email', $email);
             if ($user) {
@@ -41,8 +41,8 @@
                 return;
             }
 
-            $user = $userModel->getByFieldName('username', $username);
-            if ($user) {
+            $admin = $userModel->getByFieldName('username', $username);
+            if ($admin) {
                 $this->set('message', 'Doslo je do greške: Već postoji korisnik sa tim korisničkim imenom.');
                 return;
             }
@@ -71,6 +71,7 @@
         }
 
         public function postLogin() {
+
             $username = \filter_input(INPUT_POST, 'login_username', FILTER_SANITIZE_STRING);
             $password = \filter_input(INPUT_POST, 'login_password', FILTER_SANITIZE_STRING);
 
@@ -84,7 +85,7 @@
                 return;
             }
 
-            $userModel = new \App\Models\UserModel($this->getDatabaseConnection());
+            $userModel = new \App\Models\userModel($this->getDatabaseConnection());
 
             $user = $userModel->getByFieldName('username', $username);
             if (!$user) {
@@ -106,7 +107,7 @@
 
         public function checkout()
         {
-            if($this->getSession()->get('user_id')){
+            if($this->getSession()->get('admin_id')){
                 $items = $this->getSession()->get('items', []);
                 $itemsPrice = $items;
                 $totalPrice = 0;
@@ -121,6 +122,7 @@
         }
 
         public function getLogout() {
+            $this->getSession()->remove('admin_id');
             $this->getSession()->remove('user_id');
             $this->getSession()->save();
             $this->redirect(\Configuration::BASE);
@@ -128,6 +130,44 @@
 
         public function contact()
         {
+        }
+
+        public function getAdminLogin() {
+
+        }
+
+        public function postAdminLogin() {
+            $username = \filter_input(INPUT_POST, 'login_username', FILTER_SANITIZE_STRING);
+            $password = \filter_input(INPUT_POST, 'login_password', FILTER_SANITIZE_STRING);
+
+            $validanPassword = (new \App\Validators\StringValidator())
+                ->setMinLength(7)
+                ->setMaxLength(120)
+                ->isValid($password);
+
+            if ( !$validanPassword) {
+                $this->set('message', 'Doslo je do greške: Lozinka nije ispravnog formata.');
+                return;
+            }
+
+            $adminModel = new \App\Models\adminModel($this->getDatabaseConnection());
+
+            $admin = $adminModel->getByFieldName('admin_name', $username);
+            if (!$admin) {
+                $this->set('message', 'Doslo je do greške: Ne postoji korisnik sa tim korisničkim imenom.');
+                return;
+            }
+
+            if (!password_verify($password, $admin->admin_password)) {
+                sleep(1);
+                $this->set('message', 'Doslo je do greške: Lozinka nije ispravna.');
+                return;
+            }
+
+            $this->getSession()->put('admin_id', $admin->admin_id);
+            $this->getSession()->save();
+
+            $this->redirect(\Configuration::BASE . 'admin/profile');
         }
 
 

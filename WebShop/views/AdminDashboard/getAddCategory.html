@@ -1,0 +1,33 @@
+{% extends '_global/index.html' %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/item/add">Add an item</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/category/add">Add a Category</a>
+        </div>
+        <div class="col-sm-4">
+            <a class="btn btn-danger btn-block" href="{{ BASE }}admin/items">View all items</a>
+        </div>
+    </div>
+    <form action="/admin/category/add" method="post">
+    <div class="row">
+        <div class="col-12">
+            <div class="input-group mb-2">
+                <input type="text" required pattern="|^[A-Z][a-z]{1,255}$|" name="category_name" class="form-control" placeholder="Category Name">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button class="btn btn-danger btn-block" type="submit">Add Item</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+{% endblock %}

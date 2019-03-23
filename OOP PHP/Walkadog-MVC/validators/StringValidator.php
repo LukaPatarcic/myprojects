@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Validators;
-use App\core\Validator;
+use App\Core\Validator;
 
 class StringValidator implements Validator
 {
@@ -25,7 +25,6 @@ class StringValidator implements Validator
         $this->minStringLength = max (1,$length);
         return $this;
     }
-
 
     public function isValid(string $value): bool
     {

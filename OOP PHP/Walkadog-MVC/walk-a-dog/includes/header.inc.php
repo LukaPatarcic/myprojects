@@ -58,9 +58,9 @@ session_start();
                                 <li><a href="index.php#contact">Contact</a></li>
                                 <?php
                                 if(isset($_SESSION['username'])){
-                                    //displaying the logout button and the Admin link if the session has started
+                                    //displaying the logout button and the AdminModel link if the session has started
                                     $logout = "<li><button class=\"btn btn-primary\" type=\"submit\" name=\"submit\">Logout</button></li>";
-                                    $admin = "<li><a href=\"admin.php\">Admin</a></li>";
+                                    $admin = "<li><a href=\"admin.php\">AdminModel</a></li>";
                                                 echo $admin;
                                                 echo $logout;
                                 }

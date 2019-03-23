@@ -5,13 +5,13 @@ use App\Core\Field;
 use App\Core\Model;
 use App\Validators\StringValidator;
 
-class CategoryModel extends Model
+class AdminModel extends Model
 {
     protected function getFields(): array
     {
         return [
-            'category_name' => new Field((new StringValidator())->setMinLength(2))
+          'admin_name' => new Field(new StringValidator()),
+          'admin_password' => new Field(new StringValidator())
         ];
     }
-
 }
