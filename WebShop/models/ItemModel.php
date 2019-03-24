@@ -15,7 +15,8 @@ class ItemModel extends Model
             'category_id' => new Field((new NumberValidator())->setInteger(),true),
             'item_name' => new Field((new StringValidator())->setMinLength(2),true),
             'item_description' => new Field((new StringValidator())->setMinLength(2),true),
-            'item_price' => new Field((new NumberValidator())->setDecimal()->setMaxDecimalDigits(2),true)
+            'item_price' => new Field((new NumberValidator())->setDecimal()->setMaxDecimalDigits(2),true),
+            'item_image' => new Field((new StringValidator())->setMinLength(2),true)
         ];
     }
     final public function getItemsBySearch(string $search)

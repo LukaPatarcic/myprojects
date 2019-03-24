@@ -42,6 +42,7 @@
         \App\Core\Route::get('|^admin/item/edit/([0-9]+)/?$|',      'AdminDashboard',         'getEditItem'),
         \App\Core\Route::post('|^admin/item/edit/([0-9]+)/?$|',     'AdminDashboard',         'postEditItem'),
         \App\Core\Route::get('|^admin/item/delete/([0-9]+)/?$|',    'AdminDashboard',         'postDeleteItem'),
+        \App\Core\Route::get('|^admin/image/download/?$|',          'AdminDashboard',         'downloadImage'),
 
         App\Core\Route::get('|^user/auctions/?$|',                  'UserAuctionManagement',  'auctions'),
         App\Core\Route::get('|^user/auctions/edit/([0-9]+)/?$|',    'UserAuctionManagement',  ' getEdit'),

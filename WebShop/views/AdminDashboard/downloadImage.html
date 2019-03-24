@@ -1,0 +1,24 @@
+{% extends '_global/index.html' %}
+
+{% block title %}
+{{ item.item_name }}
+{% endblock %}
+
+{% block main %}
+{% spaceless %}
+<div class="row">
+    <div class="col-sm-12 text-center category">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>RANDOM IMAGES</h1>
+                <a href="{{ BASE }}admin/image/download" class="btn btn-danger">Download new image</a>
+            </div>
+            <div class="col-sm-2">
+                <img src="{{ BASE }}{{ image }}" alt="Random Image">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endspaceless %}
+{% endblock %}
