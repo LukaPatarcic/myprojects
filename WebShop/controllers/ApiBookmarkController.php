@@ -43,6 +43,7 @@
             $this->getSession()->put('items', $items);
 
             $this->set('error', 0);
+
         }
 
         public function clear() {
@@ -53,30 +54,21 @@
 
         public function checkout()
         {
-            $items = $_POST['items'];
-
+            $datas = $_POST['items'];//filter_input(INPUT_POST,'items',FILTER_SANITIZE_STRING);
             $itemModel = new ItemModel($this->getDatabaseConnection());
             $purchaseModel = new PurchaseModel($this->getDatabaseConnection());
-            foreach ($items as $key =>$value) {
-                var_dump ([
-                    $key,$value
-                ]);
-                $item = $itemModel->getByFieldName('item_name',$value[0]);
+            foreach ($datas as $data) {
+                $item = $itemModel->getByFieldName('item_name',$data);
                 if(!$item){
                     return $this->set('message','invalid');
                 }
-
                 $purchaseModel->add([
                    'user_id' => $this->getSession()->get('user_id',1),
-                    'item_id' => $item->item_id,
-                    'amount' => $item->value
+                    'item_id' => $item->item_id
                 ]);
 
-                if(!$item){
-                    return $this->set('message','invalid');
-                }
-
             }
+
 
             $this->set('message','success');
         }

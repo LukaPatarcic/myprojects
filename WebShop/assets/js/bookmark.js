@@ -1,4 +1,11 @@
 function getBookmarks() {
+    /*
+    fetch(BASE + 'api/bookmarks', { credentials: 'include' })
+        .then(result => result.json())
+        .then(data => {
+            displayBookmarks(data.items);
+        });
+         */
     $.ajax({
         url: BASE+'api/bookmarks',
         type: 'get',
@@ -8,9 +15,20 @@ function getBookmarks() {
         }
     })
 }
+function displayNumberOfItems(data) {
+
+    const bookmarksDiv = document.querySelector('#cartNumber');
+
+    if (data.length === 0) {
+        bookmarksDiv.innerHTML = '0';
+        return;
+    }
+    bookmarksDiv.innerHTML = data.length;
+}
 function addBookmark(auctionId) {
 
     var amount = $('input[name="amount"]').val();
+    console.log(BASE+'api/bookmarks/add');
     $.ajax({
         url : BASE + 'api/bookmarks/add',
         type : 'POST',
@@ -23,6 +41,7 @@ function addBookmark(auctionId) {
         }
     })
 }
+
 function clearBookmarks() {
     fetch(BASE + 'api/bookmarks/clear', { credentials: 'include' })
         .then(result => result.json())
@@ -37,46 +56,40 @@ function clearBookmarks() {
             }
         });
 }
+
 function displayBookmarks(items) {
-
-
-}
-function displayNumberOfItems(data) {
-
     const bookmarksDiv = document.querySelector('#cartNumber');
+    bookmarksDiv.innerHTML = '';
+    console.log(items);
 
-    if (data.length === 0) {
+    if (items.length === 0) {
         bookmarksDiv.innerHTML = '0';
         return;
     }
-    bookmarksDiv.innerHTML = data.length;
+    bookmarksDiv.innerHTML = items.length;
+
+
 }
 function checkoutBookmarks(){
     var items = [];
-    var amounts = [];
-    var item = $('li a');
-    var amount = $('#amount');
-    if(item.length === 0) {
+    var div = $('li a');
+    if(div.length === 0) {
         alert('no items to purchase');
         return;
     }
-        item.each(function () {
+        div.each(function () {
             if($(this).text() === ''){
                 alert('something went wrong!');
                 return;
             }
             items.push($(this).text().trim());
-            amounts.push(amount.text().trim());
         });
 
     $.ajax({
         url : BASE+'checkout',
         type : 'POST',
-        data : 'items='+items+'&amounts='+amounts,
+        data : {'items':items},
         success: function (response) {
-
-            console.log(response);
-            return;
             if(response.message === 'success'){
                 clearBookmarks();
                 alert('thank you for your purchase');
@@ -88,6 +101,7 @@ function checkoutBookmarks(){
         }
     })
 }
+
 $('#contact').submit(function (e) {
     $('#message').empty();
     e.preventDefault();
