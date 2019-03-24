@@ -23,9 +23,11 @@
         # API rute:
         App\Core\Route::get('|^api/bookmarks/?$|',                  'ApiBookmark',            'getBookmarks'),
         App\Core\Route::post('|^api/bookmarks/add/?$|',             'ApiBookmark',            'addBookmark'),
-        App\Core\Route::get('|^api/bookmarks/clear/?$|',            'ApiBookmark',            'clear'),
+        App\Core\Route::get('|^api/bookmarks/clear/?$|',            'ApiBookmark',            'clearBookmarks'),
+        App\Core\Route::get('|^api/bookmark/clear/([0-9]+)/?$|',    'Main',                   'clearBookmark'),
         \App\Core\Route::get('|^checkout/?$|',                      'Main',                   'checkout'),
         \App\Core\Route::post('|^checkout/?$|',                     'ApiBookmark',            'checkout'),
+        \App\Core\Route::post('|^checkout/change?$|',               'Main',                   'checkoutChange'),
 
 
         # User role routes:

@@ -18,6 +18,9 @@ class ItemController extends  UserRoleController
     {
         $itemModel = new \App\Models\ItemModel($this->getDatabaseConnection());
         $item = $itemModel->getById($id);
+        $basketItems = $this->getSession ()->get ('items',[]);
+
+        $this->set('basketItems', $basketItems);
         $this->set('item', $item);
     }
 

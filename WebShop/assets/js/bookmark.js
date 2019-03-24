@@ -1,11 +1,5 @@
 function getBookmarks() {
-    /*
-    fetch(BASE + 'api/bookmarks', { credentials: 'include' })
-        .then(result => result.json())
-        .then(data => {
-            displayBookmarks(data.items);
-        });
-         */
+
     $.ajax({
         url: BASE+'api/bookmarks',
         type: 'get',
@@ -18,12 +12,14 @@ function getBookmarks() {
 function displayNumberOfItems(data) {
 
     const bookmarksDiv = document.querySelector('#cartNumber');
+    const modalNumber = document.querySelector('#numInBasket');
 
     if (data.length === 0) {
         bookmarksDiv.innerHTML = '0';
         return;
     }
     bookmarksDiv.innerHTML = data.length;
+    modalNumber.innerHTML = data.length;
 }
 function addBookmark(auctionId) {
 
@@ -41,8 +37,16 @@ function addBookmark(auctionId) {
         }
     })
 }
+function clearBookmark(id) {
+    fetch(BASE + 'api/bookmark/clear/'+id, { credentials: 'include' })
+        .then(result => result.json())
+        .then(data => {
+            console.log(data);
+        });
+}
 
 function clearBookmarks() {
+
     fetch(BASE + 'api/bookmarks/clear', { credentials: 'include' })
         .then(result => result.json())
         .then(data => {

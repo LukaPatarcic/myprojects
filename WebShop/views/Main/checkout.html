@@ -1,27 +1,69 @@
 {% extends "_global/index.html" %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css">
 {% endblock %}
 {% block main %}
 {% spaceless %}
 <div class="container" id="cartItems">
-    <ul class="list-group">
     {% for item in items %}
-        <li class="list-group-item">
-            <a href="#">{{ item.item_name }}</a>
-            <button class="btn btn-danger float-right" type="button" data-toggle="collapse" data-target="#description{{ item.item_id }}" aria-expanded="false" aria-controls="collapseExample">
-            show more
-            </button>
-            <span class="text-muted float-right">Amount: <span class="text-danger" id="amount">{{ item.amount }}</span>&nbsp</span>
-        </li>
-        <li class="list-group-item collapse" id="description{{ item.item_id }}">
-            {{ item.item_description }}
-        </li>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="{{ BASE }}item/{{ item.item_id }}">{{ item.item_name }}</a>
+            </div>
+            <div class="col-sm-1">
+                <form class="checkout" action="{{ BASE }}checkout/change" method="post">
+                <select name="amount" value = " {{ i }}" class="amount form-control" onchange="this.form.submit()">
+                    {% for i in 1..10 %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="id" value="{{ item.item_id }}">
+                </form>
+            </div>
+            <div class="col-sm-2">
+                <h6>Price: <span>{{ item.item_price }}</span></h6>
+            </div>
+            <div class="col-sm-2">
+                <a class="btn btn-warning" href="{{ BASE }}api/bookmark/clear/{{ item.item_id }}">Remove</a>
+            </div>
+        </div>
     {% endfor %}
-    </ul>
 </div>
-<h5 id="totalPrice">Total price is: {{price|round(2, 'floor')}}</h5>
-<a href="#" onclick="clearBookmarks()">Clear basket</a><br>
-<a href="#" onclick="checkoutBookmarks()">Checkout</a>
+<h5 id="totalPrice">Total price is: <span id="totalMoney">{{ price }}</span></h5>
+<a class="btn btn-danger" href="#" onclick="clearBookmarks()">Clear basket</a><br>
+<a class="btn btn-success" href="#" onclick="checkoutBookmarks()">Checkout</a>
 {% endspaceless %}
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        var amount = [];
+        var i = 0;
+        {% for item in items %}
+            amount.push({{item.amount}})
+        {% endfor %}
+        console.log(amount);
+        $('.amount').each(function () {
+            $(this).val(amount[i]);
+            i++
+        })
+
+
+        function sleep(miliseconds) {
+            var currentTime = new Date().getTime();
+
+            while (currentTime + miliseconds >= new Date().getTime()) {
+            }
+        }
+
+
+    })
+
+</script>
 {% endblock %}

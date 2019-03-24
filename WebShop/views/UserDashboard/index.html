@@ -1,5 +1,9 @@
 {% extends '_global/index.html' %}
 
+{% block title %}
+{{ user.username }}
+{% endblock %}
+
 {% block main %}
 
 <div class="container">
@@ -13,7 +17,7 @@
     <div class="container collapse" id="collapse">
     {% for purchase in purchases %}
     <div class="row">
-        <div class="col-sm-4"> <a href="/item/{{ purchase.item_id }}"> {{ purchase.item_name }} </a></div>
+        <div class="col-sm-4"> <a href="{{ BASE }}item/{{ purchase.item_id }}"> {{ purchase.item_name }} </a></div>
         <div class="col-sm-4"> {{ purchase.item_description }} </div>
         <div class="col-sm-4"> {{ purchase.item_price }} $</div>
     </div>

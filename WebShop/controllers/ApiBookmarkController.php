@@ -28,7 +28,6 @@
             $items =$this->getSession ()->get ('items',[]);
 
             foreach ($items as $item) {
-
                 if($item->item_id == $itemId) {
                     $this->set('error',-2);
                     return;
@@ -46,11 +45,14 @@
 
         }
 
-        public function clear() {
-            $this->getSession()->put('items', []);
+        public function clearBookmarks() {
 
+            $this->getSession()->put('items', []);
             $this->set('error', 0);
         }
+
+
+
 
         public function checkout()
         {

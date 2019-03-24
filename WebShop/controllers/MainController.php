@@ -128,15 +128,43 @@
         public function checkout()
         {
             if($this->getSession()->get('admin_id') or $this->getSession ()->get ('user_id')) {
+
                 $items = $this->getSession()->get('items', []);
                 $itemsPrices = $items;
                 $totalPrice = 0;
+
+
                 foreach ($itemsPrices as $itemPrice) {
-                    $totalPrice += $itemPrice->item_price;
+                    $totalPrice += $itemPrice->item_price * $itemPrice->amount;
                 }
 
                 $this->set('items', $items);
                 $this->set('price',$totalPrice);
+            }
+
+        }
+
+        public function checkoutChange()
+        {
+            if($this->getSession()->get('admin_id') or $this->getSession ()->get ('user_id')) {
+
+                $itemId = filter_input (INPUT_POST,'id',FILTER_SANITIZE_STRING);
+                $itemAmount = filter_input (INPUT_POST,'amount',FILTER_SANITIZE_STRING);
+
+                $items = $this->getSession()->get('items', []);
+
+                foreach ($items as $item)
+                {
+                    if($item->item_id == $itemId) {
+
+                        $item->amount = $itemAmount;
+                    }
+                }
+
+
+                $this->getSession()->put('items',$items);
+                $this->getSession ()->save ();
+                $this->redirect (\Configuration::BASE.'checkout');
             }
 
         }
@@ -188,6 +216,20 @@
             $this->getSession()->save();
 
             $this->redirect(\Configuration::BASE . 'admin/profile');
+        }
+
+        public function clearBookmark($id) {
+
+            $items = $this->getSession()->get('items', []);
+
+            for($i =0; $i<sizeof ($items); $i++) {
+                if($items[$i]->item_id == $id) {
+                    unset($items[$i]);
+                }
+            }
+            $this->getSession()->put('items', $items);
+            $this->getSession ()->save ();
+            $this->redirect(\Configuration::BASE.'checkout');
         }
 
 
