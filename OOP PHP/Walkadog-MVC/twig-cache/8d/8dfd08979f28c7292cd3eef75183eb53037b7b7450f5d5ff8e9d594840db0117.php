@@ -35,7 +35,7 @@ class __TwigTemplate_42e84f4bc2ef5a4ce180fff7f86b4c8e98c51be7e3d744d5a8ba7e22b83
     <header>
         <div class=\"banner\">
             <a href=\"/\" class=\"banner\">
-                <img src=\"/assets/img/banner-1.jpg\" alt=\"Banner1\">
+                <img src=\"/assets/img/banner-default.jpg\" alt=\"Banner1\">
             </a>
         </div>
         <nav>

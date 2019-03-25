@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Core\DownloadRandomImage;
 use App\Core\Role\AdminRoleController;
 use App\Models\CategoryModel;
 use App\Models\ItemModel;
@@ -27,14 +28,27 @@ class AdminDashboardController extends AdminRoleController
         $itemCategory = filter_input(INPUT_POST, 'item_category', FILTER_SANITIZE_STRING);
         $itemPrice = sprintf('%.2f',filter_input(INPUT_POST, 'item_price', FILTER_SANITIZE_STRING));
         $itemDescription = filter_input(INPUT_POST, 'item_description', FILTER_SANITIZE_STRING);
+        $storage = new \Upload\Storage\FileSystem('assets/uploads/items/');
+        $file = new \Upload\File('img', $storage);
+        $upload =$this->addImage($file);
+
+
+        if(!$upload) {
+            return $this->set('message',$file->getErrors());
+        }
+
 
         $itemModel = new ItemModel($this->getDatabaseConnection());
         $add = $itemModel->add([
             'item_name' => $itemName,
             'item_price' => $itemPrice,
             'category_id' => $itemCategory,
-            'item_description' => $itemDescription
+            'item_description' => $itemDescription,
+            'item_image' => $file->getNameWithExtension()
         ]);
+        var_dump($add);
+        exit();
+
 
         if ($add) {
             return $this->set('message', 'Successfully added a new item');
@@ -127,5 +141,42 @@ class AdminDashboardController extends AdminRoleController
 
         return $this->set ('message','Something went wrong');
 
+    }
+
+    public function addImage(\Upload\File $file)
+    {
+
+        // Optionally you can rename the file on upload
+        $new_filename = uniqid();
+        $file->setName($new_filename);
+
+        // Validate file upload
+        // MimeType List => http://www.iana.org/assignments/media-types/media-types.xhtml
+        $file->addValidations(array(
+            // Ensure file is of type "image/png"
+            new \Upload\Validation\Mimetype('image/jpeg'),
+
+            //You can also add multi mimetype validation
+            //new \Upload\Validation\Mimetype(array('image/png', 'image/gif'))
+
+            // Ensure file is no larger than 5M (use "B", "K", M", or "G")
+            new \Upload\Validation\Size('5M')
+        ));
+
+        // Try to upload file
+        try {
+            // Success!
+            $file->upload();
+            return true;
+        } catch (\Exception $e) {
+            // Fail!
+            return false;
+        }
+    }
+
+    public function downloadImage()
+    {
+        $imgPath = DownloadRandomImage::getImage(300,400,'assets/uploads/items/');
+        $this->set('image',$imgPath);
     }
 }

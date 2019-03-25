@@ -97,7 +97,7 @@ class __TwigTemplate_009e08b8d11cb7de08a7eb7c21e60b374e5deed50549b3c8a16c30b7e04
                         <div class=\"video\" style=\"background-image:url(";
         // line 64
         echo twig_escape_filter($this->env, ($context["BASE"] ?? null), "html", null, true);
-        echo "assets/images/dogs/1.jpg);\">
+        echo "assets/images/dogs/default.jpg);\">
                             <div class=\"video-overlay\"></div>
                             <h2>watch video</h2>
                             <div class=\"playbtn\">
