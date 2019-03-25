@@ -46,8 +46,6 @@ class AdminDashboardController extends AdminRoleController
             'item_description' => $itemDescription,
             'item_image' => $file->getNameWithExtension()
         ]);
-        var_dump($add);
-        exit();
 
 
         if ($add) {
@@ -176,7 +174,7 @@ class AdminDashboardController extends AdminRoleController
 
     public function downloadImage()
     {
-        $imgPath = DownloadRandomImage::getImage(300,400,'assets/uploads/items/');
+        $imgPath = DownloadRandomImage::getImage(300,400,'assets/img/downloads/');
         $this->set('image',$imgPath);
     }
 }
