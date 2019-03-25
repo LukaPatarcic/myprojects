@@ -1,6 +1,6 @@
 <?php
     final class Configuration {
-        const BASE = 'http://localhost/';
+        const BASE = 'http://localhost/WebShop/';
 
         const DATABASE_HOST = 'localhost';
         const DATABASE_USER = 'root';
