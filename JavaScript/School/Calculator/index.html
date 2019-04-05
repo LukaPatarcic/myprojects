@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            border: 1px solid black;
+        }
+        button {
+            border: 1px solid black;
+            padding: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <label>a:</label>
+    <input type="number" name="first_value"><br><br>
+    <label>b:</label>
+    <input type="number" name="second_value"><br>
+    <label>+</label><input type="radio" name="operation" value="+"><br>
+    <label>-</label><input type="radio" name="operation" value="-"><br>
+    <label>*</label><input type="radio" name="operation" value="*"><br>
+    <label>/</label><input type="radio" name="operation" value="/"><br>
+    <label>= </label><input type="text" name="result" id="result"><br>
+    <button type="reset">reset</button>
+</form>
+<script>
+    function calculate() {
+        const first_value = parseInt(document.querySelector('input[name="first_value"]').value);
+        const second_value = parseInt(document.querySelector('input[name="second_value"]').value);
+        const add = document.querySelector('input[value="+"]');
+        const subtract = document.querySelector('input[value="-"]');
+        const divide = document.querySelector('input[value="/"]');
+        const multiply = document.querySelector('input[value="*"]');
+        const result = document.getElementById("result");
+
+        if(add.checked) {
+            result.style.background = 'red';
+            result.style.color = 'white';
+            return result.value =  first_value + second_value;
+        }
+
+        if(subtract.checked) {
+            result.style.background = 'yellow';
+            result.style.color = 'black';
+            return result.value =  first_value - second_value;
+        }
+
+        if(divide.checked) {
+            result.style.background = 'orange';
+            result.style.color = 'black';
+            return result.value =  first_value / second_value;
+        }
+
+        if(multiply.checked) {
+            result.style.background = 'lightblue';
+            result.style.color = 'black';
+            return result.value =  first_value * second_value;
+        }
+
+    }
+    addEventListener('change', calculate);
+</script>
+</body>
+</html>
