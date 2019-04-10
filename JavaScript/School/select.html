@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<select onchange="subCategory(this)">
+    <option value="">choose</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+</select>
+
+<script>
+    function subCategory(select) {
+        console.log(select.value);
+        switch (select.value) {
+            case '':
+                alert('empty');
+            break;
+            case '1':
+                alert(this);
+            break;
+            case '2':
+                alert(this);
+            break;
+            case '3':
+                alert(this);
+            break;
+
+
+        }
+    }
+</script>
+</body>
+</html>
