@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+</head>
+<body>
+<h2>Worker</h2>
+
+name: <input type="text" id="name">
+position: <input type="text" id="position">
+
+<input type="button" id="id" value="insert data">
+
+<input type="button" id="rd" value="clear">
+
+
+<hr>
+<div id="workers"></div>
+
+<div><input type="button" value="show top5 richest workers" id="t5"></div>
+<div id="top5"></div>
+<div><input type="button" value="show programmers" id="sp"></div>
+<div id="programmers"></div>
+<div><input type="button" value="show admins" id="sa"></div>
+<div id="admins"></div>
+<script type="text/javascript">
+
+    var $ = function (id) {
+        return document.getElementById(id);
+    }
+
+    window.addEventListener('load', init);
+
+    function init() {
+        $("t5").addEventListener('click', function () {
+            loadData2(1, 'top5', hello)
+        });
+        $("sp").addEventListener('click', function () {
+            loadData2(2, 'programmers', hello)
+        });
+        $("sa").addEventListener('click', function () {
+            loadData2(3, 'admins', hello)
+        });
+        $("id").addEventListener('click', loadData);
+        $("rd").addEventListener('click', clearData);
+    }
+
+
+    function loadData() {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                $("workers").innerHTML = xmlhttp.responseText;
+            }
+        };
+        var name = $('name').value;
+        var position = $('position').value;
+
+        xmlhttp.open("POST", "ajax3.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // *
+        xmlhttp.send("name=" + name + "&position=" + position);
+        $('name').value = "";
+        $('position').value = "";
+    }
+
+    function loadData2(sql, div, callback) {
+        //sql=1 div=top5 callback=hello
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            $(div).innerHTML = '<img src="ajax_loader.gif" >';
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                callback(div); // hello(top5)
+                $(div).innerHTML = xmlhttp.responseText; // $("top5")=responseText
+            }
+
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 404) {
+                $(div).innerHTML = "Error during communication,try again!";
+            }
+        };
+
+        xmlhttp.open("GET", "ajax4.php?sql=" + sql, true);
+        xmlhttp.send();
+    }
+
+    function clearData() {
+        $('workers').innerHTML = "";
+        $('top5').innerHTML = "";
+        $('programmers').innerHTML = "";
+        $('admins').innerHTML = "";
+    }
+
+    function hello(div) {
+        alert("Hello " + div);
+    }
+
+</script>
+</body>
+</html>

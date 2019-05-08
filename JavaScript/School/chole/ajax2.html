@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+    <script type="text/javascript">
+
+        function loadData() {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+
+            xmlhttp.onreadystatechange = function () {
+                console.log(xmlhttp.readyState);
+
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET", "ajax2.php?field=salary&value=1000", true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+<body>
+<div id="myDiv"><h2>This text will be changed</h2></div>
+<input type="button" onclick="loadData()" value="show programmers">
+</body>
+</html>

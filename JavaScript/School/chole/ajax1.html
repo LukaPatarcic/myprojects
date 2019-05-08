@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+    <script type="text/javascript">
+        /*
+
+         200 - ok
+         200 - created
+         400 - bad request (missing parameters)
+         401 - not authorized (e.g. API key not given)
+         404 - requested data not found
+         405 - method not allowed (e.g. wrong verb)
+         500 - internal server error
+
+         https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+
+         e.g. status 404 does not mean 'web API not found', but 'requested data not found'
+
+         XMLHttpRequest object
+         AJAX = Asynchronous JavaScript and XML.
+
+         AJAX is based on internet standards, and uses a combination of:
+
+         XMLHttpRequest object (to exchange data asynchronously with a server)
+         JavaScript/DOM (to display/interact with the information)
+         CSS (to style the data)
+         XML (often used as the format for transferring data)
+
+         AJAX applications are browser- and platform-independent!
+
+         All modern browsers (IE7+, Firefox, Chrome, Safari, and Opera) have a built-in XMLHttpRequest object.
+
+         Syntax for creating an XMLHttpRequest object:
+         variable=new XMLHttpRequest();
+
+         Old versions of Internet Explorer (IE5 and IE6) uses an ActiveX Object:
+         variable=new ActiveXObject("Microsoft.XMLHTTP");
+
+         onreadystatechange 	Stores a function (or the name of a function) to be called automatically each time the readyState property changes
+
+         readyState 	Holds the status of the XMLHttpRequest. Changes from 0 to 4:
+         0: request not initialized
+         1: server connection established
+         2: request received
+         3: processing request
+         4: request finished and response is ready
+
+         https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+
+         status 	200: "OK"
+         404: Page not found
+
+         */
+        function loadData(k) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                console.log(xmlhttp.readyState);
+
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET", "ajax1.php?k=" + k, true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+<body>
+<div id="myDiv"><h2>This text will be changed</h2></div>
+<input type="button" onclick="loadData(1)" value="change1">
+<input type="button" onclick="loadData(2)" value="change2">
+
+<p><img src="vts.png" alt="vts"/></p>
+
+</body>
+</html>

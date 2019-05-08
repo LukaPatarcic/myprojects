@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+</head>
+<body>
+<h2>Worker</h2>
+
+name: <input type="text" id="name">
+position: <input type="text" id="position">
+
+<input type="button" id="idb" value="insert data">
+<hr/>
+<div id="workers"></div>
+
+
+<script type="text/javascript">
+
+    setInterval(loadData, 3000);
+
+    document.getElementById("idb").addEventListener('click', loadData);
+
+    function loadData() {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {// code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("workers").innerHTML = xmlhttp.responseText;
+                //document.getElementById('name').value = "";
+                //document.getElementById('position').value = "";
+            }
+        };
+
+
+        var name = document.getElementById('name').value;
+        var position = document.getElementById('position').value;
+
+        xmlhttp.open("POST", "ajax3.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        /*
+         The XMLHttpRequest.setRequestHeader() method sets the value of an HTTP request header.
+         You must call setRequestHeader()after open(), but before send().
+         If this method is called several times with the same header, the values are merged into one single request header.
+         */
+
+        xmlhttp.send("name=" + name + "&position=" + position);
+        //document.getElementById('name').value = "";
+        //document.getElementById('position').value = "";
+
+    }
+</script>
+</body>
+</html>
