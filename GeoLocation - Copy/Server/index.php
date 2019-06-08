@@ -8,16 +8,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "SELECT * FROM location WHERE mac_address = '$mac'";
     $query = mysqli_query($connect,$sql);
     if(mysqli_num_rows($query) > 0) {
-        $sql = "UPDATE location SET latitude='$lat',longitude='$long',is_active = 1 WHERE mac_address = '$mac'";
+        $sql = "UPDATE location SET latitude='$lat',longitude='$long' WHERE mac_address = '$mac'";
         $query = mysqli_query($connect,$sql);
-        echo $lat.";".$long;
         exit;
     }
     $sql = "INSERT INTO location(latitude,longitude,mac_address) VALUES('$lat','$long','$mac')";
     $query = mysqli_query($connect,$sql);
-    if(mysqli_num_rows($query) > 0) {
-        echo $lat.";".$long;
-    }
-} else {
-    echo json_encode(['Bad Request' => 1]);
+    echo $mac.'<br>';
+    echo $lat.'<br>';
+    echo $long.'<br>';
 }
