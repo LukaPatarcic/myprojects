@@ -1,12 +1,18 @@
 package com.luka.geolocation;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,6 +65,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -75,6 +83,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onStop() {
         super.onStop();
         setDeviceStatus.execute();
+        finish();
     }
 
 
@@ -92,8 +101,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
         @SuppressLint("StaticFieldLeak")
-
-
         @Override
         protected String doInBackground(String... strings) {
             String response = getServerResponse();
@@ -147,6 +154,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             return locations;
 
         }
+
 
 
         private String getServerResponse() {
