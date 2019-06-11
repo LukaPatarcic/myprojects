@@ -25,6 +25,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -42,16 +44,20 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     double longitude;
     double latitude;
+    TextView textView;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        this.registerReceiver(this.wifiReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-//        this.registerReceiver(this.locationReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+        textView = findViewById(R.id.loading);
+        this.registerReceiver(this.wifiReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        this.registerReceiver(this.locationReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
 
     }
+
 
     private final LocationListener locationListener = new LocationListener() {
         @Override
@@ -79,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        textView.setVisibility(View.GONE);
         checkAppState();
     }
 
     private void checkAppState() {
         if (AppStatus.isLocationEnabled(this) && AppStatus.getInstance(this).isOnline()) {
             setCurrentLocation();
-            if(longitude == 0 || latitude == 0) {
+            if (longitude == 0 || latitude == 0) {
                 Toast.makeText(this, "Could not find your location", Toast.LENGTH_LONG).show();
             } else {
                 String latAndLong = latitude + ";" + longitude;
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS : {
+            case REQUEST_CODE_ASK_PERMISSIONS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
@@ -111,28 +118,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public BroadcastReceiver wifiReceiver = new BroadcastReceiver(){
+    public BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = ((ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE));
+            ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if(networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI){
-                if(networkInfo.isConnected()){
+            if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                if (networkInfo.isConnected()) {
                     checkAppState();
-                }else{
+                } else {
                     checkAppState();
                 }
             }
         }
     };
 
-    public BroadcastReceiver locationReceiver = new BroadcastReceiver(){
+    public BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if(statusOfGPS) {
-                Toast.makeText(context, "Broadcast received!", Toast.LENGTH_SHORT).show();
+            if (statusOfGPS) {
+                checkAppState();
+            } else {
+                checkAppState();
             }
 
         }
@@ -148,12 +157,35 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat
                     .requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,2000,10,locationListener);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        Location location = getLastKnownLocation();
         longitude = location.getLongitude();
         latitude = location.getLatitude();
     }
 
+    private Location getLastKnownLocation() {
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat
+                        .requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+            Location l = locationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
 
     private class SendDataToServer extends AsyncTask<String,Void,String> {
 
@@ -175,6 +207,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            textView.setVisibility(View.VISIBLE);
+        }
 
         private String getServerResponse(String latAndLong) {
 

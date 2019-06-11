@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,8 +45,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     String[] data;
     GoogleMap map;
     Integer counter = 0;
+    Integer counter2 = 0;
     int markerLength;
-    SetDeviceStatus setDeviceStatus = new SetDeviceStatus();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,9 +65,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
     }
 
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -77,13 +75,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 getDataFromServer.execute();
             }
         },0,5000);
+
+
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onUserLeaveHint() {
+        SetDeviceStatus setDeviceStatus = new SetDeviceStatus();
         setDeviceStatus.execute();
         finish();
+        super.onUserLeaveHint();
     }
 
 
@@ -129,7 +130,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 LatLng OtherLocation = new LatLng(lat,lng);
                 map.addMarker(new MarkerOptions().position(OtherLocation).title("OtherLocation " + i));
             }
-
         }
 
         private ArrayList<String> formatJsonData(String data) {
@@ -154,7 +154,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             return locations;
 
         }
-
 
 
         private String getServerResponse() {
