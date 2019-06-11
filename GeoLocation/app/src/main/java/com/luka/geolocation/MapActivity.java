@@ -1,24 +1,35 @@
 package com.luka.geolocation;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -35,13 +46,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Double lat;
     Double lng;
+    String name;
     String[] data;
     GoogleMap map;
     Integer counter = 0;
@@ -52,6 +65,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        this.getSupportActionBar().show();
+
+//        final ActionBar actionBar = getActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -59,6 +77,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             data = value.split(";");
             lat = Double.parseDouble(data[0]);
             lng = Double.parseDouble(data[1]);
+            name = data[2];
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -80,13 +99,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     @Override
-    protected void onUserLeaveHint() {
-        SetDeviceStatus setDeviceStatus = new SetDeviceStatus();
-        setDeviceStatus.execute();
-        finish();
-        super.onUserLeaveHint();
+    protected void onPause() {
+        if (isApplicationSentToBackground(this)){
+            SetDeviceStatus setDeviceStatus = new SetDeviceStatus();
+            setDeviceStatus.execute();
+            finish();
+        }
+        super.onPause();
     }
 
+    public boolean isApplicationSentToBackground(final Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -98,6 +136,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            startActivity(new Intent(this, MainActivity.class));
+            return true;
+        }
+        if(id==R.id.action_about){
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private class GetDataFromServer extends AsyncTask<String,Void,String> {
 
 
@@ -115,7 +169,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             map.clear();
             map.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
             if(counter == 0) {
-                map.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lng), 13));
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(lat, lng))
+                        .zoom(12)
+                        .build();
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 counter++;
             }
 
@@ -127,8 +187,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 String[] dataArray = data.split(";");
                 Double lat = Double.parseDouble(dataArray[0]);
                 Double lng = Double.parseDouble(dataArray[1]);
+                String name = dataArray[2];
                 LatLng OtherLocation = new LatLng(lat,lng);
-                map.addMarker(new MarkerOptions().position(OtherLocation).title("OtherLocation " + i));
+                map.addMarker(new MarkerOptions().position(OtherLocation).title(name));
             }
         }
 
@@ -142,11 +203,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 for (int i = 0; i<markerLength; i++) {
                     String lat;
                     String lon;
+                    String name;
 
                     JSONObject location = jsonArray.getJSONObject(i);
                     lat = location.getString("latitude");
                     lon = location.getString("longitude");
-                    locations.add(lat+";"+lon);
+                    name = location.getString("device_name");
+                    locations.add(lat+";"+lon+";"+name);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -189,7 +252,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 String line;
 
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    buffer.append(line);
                 }
 
                 if (buffer.length() == 0) {
@@ -215,6 +278,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
             return serverResponse;
         }
+
+
     }
     private class SetDeviceStatus extends AsyncTask<String,Void,String> {
 
@@ -266,7 +331,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 String line;
 
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    buffer.append(line);
                 }
 
                 if (buffer.length() == 0) {

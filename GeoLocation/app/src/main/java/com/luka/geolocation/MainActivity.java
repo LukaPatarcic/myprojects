@@ -2,6 +2,7 @@ package com.luka.geolocation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -45,13 +47,16 @@ public class MainActivity extends AppCompatActivity {
     double longitude;
     double latitude;
     TextView textView;
+    String deviceName;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        deviceName = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
         textView = findViewById(R.id.loading);
         this.registerReceiver(this.wifiReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         this.registerReceiver(this.locationReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
@@ -167,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;
+
         for (String provider : providers) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED &&
@@ -215,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
         private String getServerResponse(String latAndLong) {
 
+
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String serverResponse = null;
@@ -233,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 String data =
                         URLEncoder.encode("mac", "UTF-8") + "=" + URLEncoder.encode(MAC_ADDRESS, "UTF-8") + "&" +
                         URLEncoder.encode("latitude","UTF-8") + "=" + URLEncoder.encode(latitude,"UTF-8") + "&" +
-                        URLEncoder.encode("longitude","UTF-8") + "=" + URLEncoder.encode(longitude,"UTF-8")
+                        URLEncoder.encode("longitude","UTF-8") + "=" + URLEncoder.encode(longitude,"UTF-8") + "&" +
+                        URLEncoder.encode("name","UTF-8") + "=" + URLEncoder.encode(deviceName,"UTF-8")
                         ;
                 URL url = new URL(URL);
 
@@ -254,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                 String line;
 
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    buffer.append(line);
                 }
 
                 if (buffer.length() == 0) {
